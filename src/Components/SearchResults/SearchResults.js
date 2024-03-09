@@ -4,7 +4,7 @@ function SearchResults(props) {
   return (
     <>
       <h1>Results</h1>
-      <TrackList tracks={props.searchResults} />
+      <TrackList tracks={props.searchResults} handleAdd={props.onClick} />
     </>
   );
 }

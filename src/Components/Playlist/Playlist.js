@@ -1,21 +1,22 @@
 import React from "react";
-import Track from "../TrackList/Track/Track";
+import Track from "../TrackList/Track/Track.js";
 
 function Playlist(props) {
   return (
-    <form onSubmit={props.onSubmit}>
+    <form onSubmit={props.onSubmit} name="name">
       <input type="text" onChange={props.onChange} value={props.playlistName} />
       <ul>
         {props.playlists.map((track) => (
-          <>
+          <li key={track.id}>
             <Track
               trackId={track.id}
               trackName={track.name}
               trackArtist={track.artist}
               trackAlbum={track.album}
+              isRemoval={true}
+              handleRemove={props.onRemove}
             />
-            <button onClick={() => props.onRemove(track.id)} >Remove Song</button>
-          </>
+          </li>
         ))}
       </ul>
       <input type="submit" value="Add to Spotify" />

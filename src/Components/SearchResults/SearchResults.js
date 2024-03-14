@@ -1,10 +1,13 @@
 import React from "react";
-import TrackList from '../TrackList/Tracklist'
+import TrackList from "../TrackList/Tracklist.js";
 function SearchResults(props) {
   return (
     <>
       <h1>Results</h1>
-      <TrackList tracks={props.searchResults} handleAdd={props.onClick} />
+      <TrackList
+        tracks={props.searchResults}
+        handleAdd={props.onClick}
+      />
     </>
   );
 }

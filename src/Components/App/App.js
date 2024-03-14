@@ -1,92 +1,100 @@
 import React, { useState } from "react";
-import SearchBar from "../SearchBar/SearchBar";
-import SearchResults from "../SearchResults/SearchResults";
-import Playlist from "../Playlist/Playlist";
+import SearchBar from "../SearchBar/SearchBar.js";
+import SearchResults from "../SearchResults/SearchResults.js";
+import Playlist from "../Playlist/Playlist.js";
+import Spotify from "../../util/Spotify.js";
 
 function App() {
-  /**
-   * Using useState Hook, creating searchResults array to store user's search results
-   * Current initial state of the searchResults array is mocked for testing purposes (will be replaced with the actual data from the API)
-   */
+  // searchResults state handling
+  const [searchInput, setSearchInput] = useState("");
   const [searchResults, setSearchResults] = useState([
     {
       id: 1,
-      name: "Batajnica Air Base",
-      artist: "Ellissa Tregidgo",
-      album: "LYBT",
+      name: "Up in the Clouds",
+      album: "Up in the Clouds",
+      artist: "Skegss",
+      uri: "spotify:track:440m8MPuMzg5PkipV7Sh45",
     },
     {
       id: 2,
-      name: "Harry P Williams Memorial Airport",
-      artist: "Loella Kennerley",
-      album: "KPTN",
+      name: "Got on my Skateboard",
+      album: "Got on my Skateboard",
+      artist: "Skegss",
+      uri: "spotify:track:4b4xM3m8KKK9LH8Zw2HN1K",
     },
-    { id: 3, name: "São Borja Airport", artist: "Lem Alf", album: "SSSB" },
+    {
+      id: 3,
+      name: "Save it for the Weekend",
+      album: "Save it for the Weekend",
+      artist: "Skegss",
+      uri: "spotify:track:11cVt2IAfcDvrz98EhjDgc",
+    },
     {
       id: 4,
-      name: "Tucumcari Municipal Airport",
-      artist: "Evvy Dadge",
-      album: "KTCC",
+      name: "Down to Ride",
+      album: "Rehearsal",
+      artist: "Skegss",
+      uri: "spotify:track:0BvQ8hZcZ0qHaIq4dNtivb",
     },
-    { id: 5, name: "El Petén Airport", artist: "Jud Cornford", album: null },
+    {
+      id: 5,
+      name: "Heart Attack",
+      album: "50 Pushups for a Dollar",
+      artist: "Skegss",
+      uri: "spotify:track:4OwSeTHiPX0IaIptOa8s6T",
+    },
   ]);
-
-
-  /**
-   * Using useState Hook, creating a playlists array to store user's playlist
-   * Current initial state of the playlists array is using one of the searchResults array value for testing purposes
-   */
-  const [playlists, setPlaylists] = useState([
-    { id: 5, name: "El Petén Airport", artist: "Jud Cornford", album: null },
-  ]);
-
-  /**
-   * Handling Add to Playlist functionality to each of the searchResults track using the id parameter
-   * This function gets passed to the SearchResults Component
-   * @param {*} id
-   */
-  const handleAdd = (id) => {
-    const trackIndex = searchResults.findIndex((result) => result.id === id); // retrieving the index of the selected track using its id
-    const isOnPlaylist = playlists.findIndex((playlist) => playlist.id === id); // see if the playlists array had a track with the id of selected track's id. Will return -1 if there's none.
-    if (isOnPlaylist === -1) {
-      setPlaylists((prev) => [...prev, searchResults[trackIndex]]); // set the current playlists array state into previous state along with a track from searchResults with the id of trackIndex
+  const handleSearchInput = async ({ target }) => {
+    setSearchInput(target.value);
+  };
+  const handleSearch = async (event) => {
+    try {
+      event.preventDefault();
+      const tracks = await Spotify.searchForTracks(searchInput);
+      setSearchResults(tracks);
+      setSearchInput("");
+    } catch (error) {
+      console.log("Error while fetching for tracks: ", error);
     }
   };
 
-  /**
-   * Handling Remove from Playlist functionality to each of the playlists track using the id parameter
-   * This function gets passed to the Playlist Component
-   * @param {*} id
-   */
+  // tracks on playlists state handling
+  const [playlists, setPlaylists] = useState([]);
+  const handleAdd = (id) => {
+    const trackIndex = searchResults.findIndex((result) => result.id === id);
+    const isOnPlaylist = playlists.findIndex((playlist) => playlist.id === id);
+    if (isOnPlaylist === -1) {
+      setPlaylists((prev) => [...prev, searchResults[trackIndex]]);
+    }
+  };
   const handleRemove = (id) => {
-    setPlaylists(playlists.filter((track) => track.id !== id)); // set the current playlist array state to have the value of an array that has no track with the id of selected track's id
+    setPlaylists(playlists.filter((track) => track.id !== id));
   };
 
-
-  /**
-   * Using useState Hook, creating a playlistName state to store the value of the user's playlist name
-   */
+  // playlistName state handling
   const [playlistName, setPlaylistName] = useState("");
-  /**
-   * Handling onChange functionality on the Playlist Component input element
-   * This function gets passed to the Playlist Component
-   * @param {*} param0
-   */
   const handleChange = ({ target }) => {
-    setPlaylistName(target.value); // set the playlistName state to have the value of the input element
+    setPlaylistName(target.value);
   };
-  /**
-   * TODO: Handling submit functionality on the Playlist Component
-   * @param {*} event
-   */
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const trackUris = playlists.map((track) => track.uri);
+      await Spotify.addTracksToPlaylist(playlistName, trackUris);
+      setPlaylistName("");
+      setPlaylists([]);
+    } catch (error) {
+      console.error("Error occured while saving playlist: ", error);
+    }
   };
-
 
   return (
     <>
-      <SearchBar />
+      <SearchBar
+        onChange={handleSearchInput}
+        onSubmit={handleSearch}
+        value={searchInput}
+      />
       <SearchResults searchResults={searchResults} onClick={handleAdd} />
       <Playlist
         onChange={handleChange}

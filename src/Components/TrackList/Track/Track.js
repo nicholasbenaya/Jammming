@@ -1,14 +1,30 @@
 import React from "react";
 
 function Track(props) {
+  const handleAction = () => {
+    if (props.isRemoval) {
+      return (
+        <button onClick={() => props.handleRemove(props.trackId)}>
+          Remove Song
+        </button>
+      );
+    } else {
+      return (
+        <button onClick={() => props.handleAdd(props.trackId)}>Add Song</button>
+      );
+    }
+  };
   return (
-    <li key={props.trackId}>
+    <>
       <h2>{props.trackName}</h2>
       <p>
         {props.trackArtist}{" "}
         {props.trackAlbum !== null ? `| ${props.trackAlbum}` : ""}
       </p>
-    </li>
+      {handleAction()}
+    </>
+      
+    
   );
 }
 

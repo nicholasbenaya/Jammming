@@ -30,7 +30,7 @@ const Spotify = {
     let userId = "";
     const url = apiUrl + "/me";
     const token = await this.getAccessToken();
-    console.log("(in getUserId) token:", token);
+    // console.log("(in getUserId) token:", token);
      try {
       const response = await fetch(url, {
         method: "GET",
@@ -39,7 +39,7 @@ const Spotify = {
       if (response.ok) {
         const jsonResponse = await response.json();
         userId = jsonResponse.id;
-        console.log("(in getUserId) userID: ", userId);
+        // console.log("(in getUserId) userID: ", userId);
         return userId;
       } else {
         throw new Error("Cannot fetch UserID!");
@@ -52,9 +52,9 @@ const Spotify = {
   async createPlaylist(playlistName) {
     if (!playlistName) return;
     const userId = await this.getUserId();
-    console.log("(in createPlaylist) userID:", userId);
+    // console.log("(in createPlaylist) userID:", userId);
     const token = await this.getAccessToken();
-    console.log("(in createPlaylist) token:", token);
+    // console.log("(in createPlaylist) token:", token);
     let playlistId = "";
     try {
       const response = await fetch(
@@ -70,7 +70,7 @@ const Spotify = {
       if (response.ok) {
         const jsonResponse = await response.json();
         playlistId = jsonResponse.id;
-        console.log(playlistId);
+        // console.log(playlistId);
         return playlistId;
       } else {
         throw new Error("Cannot Create Playlist!");
@@ -82,9 +82,9 @@ const Spotify = {
   },
   async addTracksToPlaylist(playlistName, uris) {
     const token = await this.getAccessToken();
-    console.log("(in addTracksToPlaylist) token:", token);
+    // console.log("(in addTracksToPlaylist) token:", token);
     const playlistId = await this.createPlaylist(playlistName);
-    console.log("(in addTrackToPlaylist) playlistId:", playlistId);
+    // console.log("(in addTrackToPlaylist) playlistId:", playlistId);
     const addTrackUrl = apiUrl + `/playlists/${playlistId}/tracks`;
     try {
       const addTrackResponse = await fetch(addTrackUrl, {
@@ -107,7 +107,7 @@ const Spotify = {
   async searchForTracks(query) {
     const token = await this.getAccessToken();
     let tracks;
-    console.log("(In searchForTracks) token:", token);
+    // console.log("(In searchForTracks) token:", token);
     const urlToFetch = apiUrl + `/search?q=${query}&type=track`;
     try {
       const response = await fetch(urlToFetch, {

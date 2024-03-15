@@ -1,0 +1,8 @@
+.container {
+    min-width: 350px;
+    max-height: 350px;
+    overflow-y: scroll;
+}
+.container::-webkit-scrollbar {
+    display: none;
+}

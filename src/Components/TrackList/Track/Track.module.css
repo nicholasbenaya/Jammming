@@ -1,0 +1,41 @@
+.title {
+    font-weight: bold;
+    
+}
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px; 
+}
+.track {
+    width: 250px;
+    text-wrap: nowrap;
+    overflow-x:scroll;
+}
+.track::-webkit-scrollbar {
+    display: none;
+}
+.button {
+    background-color: #FAF0E6;
+    padding: 5px;
+    font-size: 12px;
+    border-radius: 12px;
+    color: #352F44;
+    width: 20%;
+    height: 35px;
+    font-weight: bold;
+}
+.button:hover {
+    background-color: #352F44;
+    color: #FAF0E6;
+}
+.button:active {
+    background-color: #B9B4C7;
+    color: #5C5470;
+}
+.ruler {
+    width: 100%;
+    border: 1px solid #FAF0E6;
+    margin-top: 5px;
+}

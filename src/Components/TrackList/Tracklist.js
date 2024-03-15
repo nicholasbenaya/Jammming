@@ -1,9 +1,10 @@
 import React from "react";
 import Track from "./Track/Track.js";
+import Styles from "./Tracklist.module.css"
 
 function TrackList(props) {
   return (
-    <ul>
+    <ul className={Styles.container}>
       {props.tracks.map((track) => (
         <li key={track.id}>
           <Track

@@ -6,7 +6,7 @@ A React-based project with the functionalities to search for music tracks and sa
 
 1. Build a web app using React
 2. Control the progress using the Git version control and host the repository on GitHub
-3. Intergrate the app with Spotify or another API
+3. Integrate the app with Spotify or another API
 4. Deploy the App
 
 ## Technologies Used
@@ -26,7 +26,7 @@ A React-based project with the functionalities to search for music tracks and sa
 1. Search for Tracks based on user's query
 2. Add tracks to the playlist and save it to the user's spotify library with the name of user's choice
 
-# Future Work
+## Future Work
 
 1. Display user's Profile data in the webapp
 2. Create a Playlist Recommendation based on user's top tracks
